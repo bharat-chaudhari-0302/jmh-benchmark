@@ -8,9 +8,13 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
     vertx.createHttpServer().requestHandler(req -> {
-      req.response()
-        .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!");
+      if (req.method().name().equals("GET") && req.path().equals("/hello")) {
+        req.response()
+                .putHeader("content-type", "text/plain")
+                .end("Hello from Vert.x!");
+      } else {
+        req.response().setStatusCode(404).end();
+      }
     }).listen(8888).onComplete(http -> {
       if (http.succeeded()) {
         startPromise.complete();
@@ -19,5 +23,11 @@ public class MainVerticle extends AbstractVerticle {
         startPromise.fail(http.cause());
       }
     });
+  }
+
+  public static void main(String[] args) {
+    // Deploy the MainVerticle
+    var vertx = io.vertx.core.Vertx.vertx();
+    vertx.deployVerticle(new MainVerticle());
   }
 }

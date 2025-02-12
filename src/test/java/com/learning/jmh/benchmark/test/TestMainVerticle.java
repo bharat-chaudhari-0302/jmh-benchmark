@@ -1,5 +1,6 @@
-package com.learning.jmh.benchmark;
+package com.learning.jmh.benchmark.test;
 
+import com.learning.jmh.benchmark.MainVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
