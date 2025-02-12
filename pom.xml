@@ -18,34 +18,50 @@
 
         <vertx.version>4.5.10</vertx.version>
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <jmh.version>1.37</jmh.version>
 
         <main.verticle>com.learning.jmh.benchmark.MainVerticle</main.verticle>
         <launcher.class>io.vertx.core.Launcher</launcher.class>
+
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.vertx</groupId>
-                <artifactId>vertx-stack-depchain</artifactId>
-                <version>${vertx.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
+
+        <!-- Vertx dependencies -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-client</artifactId>
+            <version>${vertx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-junit5</artifactId>
+            <version>${vertx.version}</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- JMH dependencies -->
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+
+
+        <!-- TEST dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -58,6 +74,7 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -87,7 +104,8 @@
                                         <Main-Verticle>${main.verticle}</Main-Verticle>
                                     </manifestEntries>
                                 </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                             <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
                             </outputFile>
